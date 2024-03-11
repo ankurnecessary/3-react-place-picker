@@ -1,12 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import React from 'react';
+import {useEffect, useRef, useState} from 'react';
 
-import Places from "./components/Places.jsx";
-import { AVAILABLE_PLACES } from "./data.js";
-import Modal from "./components/Modal.jsx";
-import DeleteConfirmation from "./components/DeleteConfirmation.jsx";
-import logoImg from "./assets/logo.png";
-import { sortPlacesByDistance } from "./loc.js";
+import Places from './components/Places.jsx';
+import {AVAILABLE_PLACES} from './data.js';
+import Modal from './components/Modal.jsx';
+import DeleteConfirmation from './components/DeleteConfirmation.jsx';
+import logoImg from './assets/logo.png';
+import {sortPlacesByDistance} from './loc.js';
 
+/**
+ * @return {jsx}
+ */
 function App() {
   const modal = useRef();
   const selectedPlace = useRef();
@@ -15,26 +19,37 @@ function App() {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
-      ({ coords: { latitude, longitude } }) => {
-        const sortedPlaces = sortPlacesByDistance(
-          AVAILABLE_PLACES,
-          latitude,
-          longitude
-        );
-        setAvailablePlaces(sortedPlaces);
-      }
+        ({coords: {latitude, longitude}}) => {
+          const sortedPlaces = sortPlacesByDistance(
+              AVAILABLE_PLACES,
+              latitude,
+              longitude,
+          );
+          setAvailablePlaces(sortedPlaces);
+        },
     );
   }, []);
 
+  /**
+   * @param {string} id
+   */
   function handleStartRemovePlace(id) {
     modal.current.open();
     selectedPlace.current = id;
   }
 
+  /**
+   * To stop removing place
+   * @return {void}
+   */
   function handleStopRemovePlace() {
     modal.current.close();
   }
 
+  /**
+   * To handle price selection
+   * @param {string} id
+   */
   function handleSelectPlace(id) {
     setPickedPlaces((prevPickedPlaces) => {
       if (prevPickedPlaces.some((place) => place.id === id)) {
@@ -45,9 +60,12 @@ function App() {
     });
   }
 
+  /**
+   * To remove a selected place
+   */
   function handleRemovePlace() {
     setPickedPlaces((prevPickedPlaces) =>
-      prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
+      prevPickedPlaces.filter((place) => place.id !== selectedPlace.current),
     );
     modal.current.close();
   }
@@ -72,7 +90,7 @@ function App() {
       <main>
         <Places
           title="I'd like to visit ..."
-          fallbackText={"Select the places you would like to visit below."}
+          fallbackText={'Select the places you would like to visit below.'}
           places={pickedPlaces}
           onSelectPlace={handleStartRemovePlace}
         />
