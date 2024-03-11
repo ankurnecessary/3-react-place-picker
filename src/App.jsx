@@ -80,6 +80,13 @@ function App() {
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current),
     );
     modal.current.close();
+
+    const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+    const indexToRemove = storedIds.indexOf(selectedPlace.current);
+    if (indexToRemove !== -1) {
+      storedIds.splice(indexToRemove, 1);
+      localStorage.setItem('selectedPlaces', JSON.stringify(storedIds));
+    }
   }
 
   return (
