@@ -12,10 +12,14 @@ import {sortPlacesByDistance} from './loc.js';
  * @return {jsx}
  */
 function App() {
+  const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+  const storedPlaces = storedIds.map((id) => {
+    return AVAILABLE_PLACES.find((place) => place.id === id);
+  });
   const modal = useRef();
   const selectedPlace = useRef();
   const [availablePlaces, setAvailablePlaces] = useState([]);
-  const [pickedPlaces, setPickedPlaces] = useState([]);
+  const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
