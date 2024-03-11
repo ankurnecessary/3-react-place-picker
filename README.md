@@ -24,3 +24,11 @@ Working with:
 [This link helps in setting up the most important rule that will help in highlighting the unused variables and highlighting the undeclared variable usage](https://www.dhiwise.com/post/essential-eslint-rules-for-react#1-react-jsx-uses-react-)
 
 [Refs vs State Values](https://www.udemy.com/course/react-the-complete-guide-incl-redux/learn/lecture/39836310#questions)
+
+In the code below we are iterating over an array of ids i.e. **storedIds** and on the basis of ids we are fetching places. Finally, we are storing those places in an array and assigning it to variable **storedPlaces**.
+
+```Javascript
+const storedPlaces = storedIds.map((id) => {
+  return AVAILABLE_PLACES.find((place) => place.id === id);
+});
+```
