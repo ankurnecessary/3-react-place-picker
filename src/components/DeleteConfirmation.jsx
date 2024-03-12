@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useEffect} from 'react';
 import PropTypes from 'prop-types';
 
+const TIMER = 3000;
 /**
  * A custom React component that displays delete message in modal window.
  *
@@ -10,15 +11,28 @@ import PropTypes from 'prop-types';
  * @return {JSX.Element} A JSX element representing Delete confirmation message.
  */
 function DeleteConfirmation({onConfirm, onCancel}) {
+  const [remainingTime, setRemainingTime] = useState(TIMER);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRemainingTime((prevTime) => prevTime - 10);
+    }, 10);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+
   useEffect(() => {
     const timer = setTimeout(() => {
       onConfirm();
-    }, 3000);
+    }, TIMER);
 
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [onConfirm]);
 
   return (
     <div id="delete-confirmation">
@@ -32,6 +46,7 @@ function DeleteConfirmation({onConfirm, onCancel}) {
           Yes
         </button>
       </div>
+      <progress value={remainingTime} max={TIMER} />
     </div>
   );
 }
