@@ -1,29 +1,18 @@
-import React, {useState} from 'react';
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
+import ProgressBar from './ProgressBar';
 
 const TIMER = 3000;
 /**
  * A custom React component that displays delete message in modal window.
  *
  * @component
- * @param {object} props - The props object containing component's properties.
+ * @param {Object} props - The props object containing component's properties.
+ * @param {function} props.onConfirm - Called when user confirms the deletion
+ * @param {function} props.onCancel - Called when the user cancels the deletion
  * @return {JSX.Element} A JSX element representing Delete confirmation message.
  */
 function DeleteConfirmation({onConfirm, onCancel}) {
-  const [remainingTime, setRemainingTime] = useState(TIMER);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRemainingTime((prevTime) => prevTime - 10);
-    }, 10);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-
   useEffect(() => {
     const timer = setTimeout(() => {
       onConfirm();
@@ -46,7 +35,7 @@ function DeleteConfirmation({onConfirm, onCancel}) {
           Yes
         </button>
       </div>
-      <progress value={remainingTime} max={TIMER} />
+      <ProgressBar max={TIMER} />
     </div>
   );
 }
